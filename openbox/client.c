@@ -1967,6 +1967,10 @@ void client_setup_decor_and_functions(ObClient *self, gboolean reconfig)
 
     client_setup_decor_undecorated(self);
 
+    /* DISABLED: Force removal of iconify/minimize functionality and decoration */
+    self->functions &= ~OB_CLIENT_FUNC_ICONIFY;
+    self->decorations &= ~OB_FRAME_DECOR_ICONIFY;
+
     if (self->max_horz && self->max_vert) {
         /* once upon a time you couldn't resize maximized windows, that is not
            the case any more though !
@@ -1983,8 +1987,8 @@ void client_setup_decor_and_functions(ObClient *self, gboolean reconfig)
     if (self->fullscreen) {
         self->functions &= (OB_CLIENT_FUNC_CLOSE |
                             OB_CLIENT_FUNC_MOVE |
-                            OB_CLIENT_FUNC_FULLSCREEN |
-                            OB_CLIENT_FUNC_ICONIFY);
+                            OB_CLIENT_FUNC_FULLSCREEN);
+        /* DISABLED: removed OB_CLIENT_FUNC_ICONIFY from fullscreen windows */
         self->decorations = 0;
     }
 
@@ -3519,11 +3523,8 @@ static void client_iconify_recursive(ObClient *self,
 void client_iconify(ObClient *self, gboolean iconic, gboolean curdesk,
                     gboolean hide_animation)
 {
-    if (self->functions & OB_CLIENT_FUNC_ICONIFY || !iconic) {
-        /* move up the transient chain as far as possible first */
-        self = client_search_top_direct_parent(self);
-        client_iconify_recursive(self, iconic, curdesk, hide_animation);
-    }
+    /* DISABLED: Iconify/minimize feature is completely disabled */
+    return;
 }
 
 void client_maximize(ObClient *self, gboolean max, gint dir)

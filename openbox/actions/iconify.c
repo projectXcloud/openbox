@@ -13,11 +13,6 @@ void action_iconify_startup(void)
 /* Always return FALSE because its not interactive */
 static gboolean run_func(ObActionsData *data, gpointer options)
 {
-    if (data->client) {
-        actions_client_move(data, TRUE);
-        client_iconify(data->client, TRUE, TRUE, FALSE);
-        actions_client_move(data, FALSE);
-    }
-
+    /* DISABLED: Iconify action is disabled - do nothing */
     return FALSE;
 }
